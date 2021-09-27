@@ -1,0 +1,24 @@
+version: "3.4"
+
+services:
+  picobrew_pico:
+    image: chiefwigms/picobrew_pico
+    volumes:
+      - type: bind
+        source: ./recipes
+        target: /picobrew_pico/app/recipes
+      - type: bind
+        source: ./sessions
+        target: /picobrew_pico/app/sessions
+    ports:
+      - 80:80
+  
+  dnsmasq:
+    image: strm/dnsmasq
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    cap_add:
+      - NET_ADMIN
